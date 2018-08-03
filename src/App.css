@@ -1,5 +1,11 @@
 body {
   background: linear-gradient(to right, #FFE200, #ffffff);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.page-header {
+  width: 100%;
 }
 
 .App-header {
@@ -20,14 +26,20 @@ body {
   padding-top: 1em;
 }
 
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  width: 95%;
+}
+
 .icon-calendar {
   width:100%;
   color: black
 }
 
 .calendar {
-  margin-right:30px;
-  float: right;
+  width: 90%;
   background-color: white;
   border-radius: 10px;
   box-shadow: 5px 10px 18px #888888;
@@ -60,22 +72,9 @@ tr:nth-child(odd) {background-color: #f2f2f2;}
   border: 1px solid black;
 }
 
-.today-cell {
-  background-color: rgb(48, 62, 180);
-  color: white;
-  cursor: pointer;
-  margin: auto;
-  text-align: center;
-}
-
 .weekends-days {
   color: red;
 }
-
-.selectedDay {
-  border: 2px solid black !important;
-}
-
 
 tr td {
   padding: 15px;
@@ -83,25 +82,20 @@ tr td {
   border-radius: 8px;
 }
 
-
-.main-div-calendar {
+.calendar-div {
   width: 35%;
-  height: 35%;
-  float:right;
 }
 
+
 .calendar-header {
-  float: right;
   padding:  7px;
-  width: 86%;
-  margin-right:30px;
+  width: 90%;
   background-color: white;
   border-radius: 10px;
   border-top: 1px solid #FFE200;
   margin-bottom: 5px;
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-around; 
+  justify-content: space-around;
   box-shadow: 5px 10px 18px #888888;
 }
 
@@ -109,18 +103,8 @@ tr td {
    float: right;
 }
 
-
 .day-name {
   width: 8vw;
-}
-
-.day-symb {
-  text-align: center;
-  padding: 1vw;
-  border: 1px solid black;
-  width: 93%;
-  display: flex;
-  flex-flow: row nowrap;
 }
 
 .today {
@@ -135,8 +119,7 @@ tr td {
   margin: 15px;
   margin-top: 0px;
   padding:10px;
-  display: inline-block;
-  width: 60%;
+  width: 55%;
   min-height: 70vh;
   border: 1px solid #fff56e;
   border-radius: 5%;
@@ -175,7 +158,6 @@ input {
   overflow: hidden;
   box-sizing: content-box;
 }
-
 
 .close {
   float: right;
@@ -233,6 +215,7 @@ input {
 .selected-item {
   background: linear-gradient(to right, #FFE200, #ffffff) !important;
   width: 80%;
+  padding: 10px;
 }
 
 .selected-item input {
@@ -240,21 +223,41 @@ input {
   padding:2px;
 }
 
-.main-app-page {
-  display: flex;
-  flex-flow: row wrap;
+.active {
+  color: white;
+  background-color: blue;
 }
 
-@media  (max-width: 780px) and (min-width: 200px) {
-  .side-bar {
-    width: 90%;
-    margin: 10px;
-  }
-  .main-div-calendar {
-    width : 90%;
-    margin: 10px;
-  }
-  .calendar-header {
-    width: 50%;
-  }
+.busy-days {
+  border: 1px dotted red;
+  text-align: center;
+  margin: auto;
+  width: 5px;
+  height: 5px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bolder;
+}
+
+#today-cell {
+  background-color: rgb(48, 62, 180) !important;
+  color: white !important;
+  cursor: pointer !important;
+  margin: auto !important;
+  text-align: center !important;
+}
+
+.selectedDay {
+  border: 2px solid black !important;
+}
+
+.total-container {
+  background-color: #ffffff;
+  font-size: 18px;
+  padding:10px;
+  margin-top: 5px;
+  width: 90%;
+  border: 1px solid #fff56e;
+  border-radius: 5%;
+  box-shadow: 5px 10px 18px #888888;
 }

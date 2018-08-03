@@ -17,13 +17,32 @@ class App extends Component {
     if (document.getElementById(day)) {
       document.getElementById(day).setAttribute("class", "selectedDay")
     }
+  }
+
+  componentWillMount() {
+    const { day } = this.state
+    if (localStorage.getItem("agenda")) {
+      let savedAgenda = localStorage.getItem('agenda')
+      let parsedObject = JSON.parse(savedAgenda)
+      this.setState({
+        agenda: parsedObject
+      })
+      return
+    }
     this.setState({
       agenda: { [day]: [] }
     })
   }
 
+  componentDidUpdate() {
+    const { agenda, day } = this.state
+    if (agenda[day]) {
+      localStorage.setItem("agenda", JSON.stringify(agenda))
+    }
+  }
+
   onDayChange = (val) => {
-    const { day, agenda } = this.state
+    const { day } = this.state
     let selectedDay = document.getElementById(day)
 
     if (selectedDay) {
@@ -31,7 +50,10 @@ class App extends Component {
     }
 
     selectedDay = document.getElementById(moment(val).format("ddd, D MMM, YYYY"))
-    selectedDay.setAttribute("class", "day-cell selectedDay")
+    if (selectedDay) {
+      selectedDay.classList.remove("busy-days")
+      selectedDay.setAttribute("class", "day-cell selectedDay")
+    }
     this.setState({
       day: moment(val).format("ddd, D MMM, YYYY"),
     })
@@ -40,7 +62,7 @@ class App extends Component {
   onAddingTask = (val) => {
     const { day, agenda } = this.state
     val['id'] = this.idGenerator()
-    
+
     if (!agenda.hasOwnProperty(day)) {
       let newState = Object.assign(agenda, { [day]: [] })
       newState[day] = [...newState[day], val]
@@ -66,7 +88,7 @@ class App extends Component {
   editTask = (taskId, newValue) => {
     const { day, agenda } = this.state
     let newState = agenda[day].map(task => {
-      if (task.id == taskId) {
+      if (task.id === taskId) {
         task.title = newValue['title']
         task.location = newValue['location']
         task.time = newValue['time']
@@ -83,18 +105,20 @@ class App extends Component {
   }
 
   render() {
-    const { day } = this.state
-
+    const { day, agenda } = this.state
+    console.log(agenda)
     return (
       <React.Fragment>
-        <Header />
-        <div class="container-fluid">
-          <Calendar changeDate={this.onDayChange} />
+        <Header className="page-header" />
+        <div className="main-container">
           <DayDetails selectedDay={day}
             agenda={this.state.agenda}
             addingTask={this.onAddingTask}
             deletingTask={this.deleteTask}
             editingTask={this.editTask} />
+          <Calendar changeDate={this.onDayChange}
+            agenda={agenda}
+            selectedDay={day} />
         </div>
       </React.Fragment>
     );

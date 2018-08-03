@@ -10,11 +10,27 @@ class Calender extends Component {
         today: moment(),
     }
 
+    componentDidMount() {
+        this.updateClassesNames()
+    }
+
     componentDidUpdate() {
-        let todayStr = this.state.today.format("ddd, D MMM, YYYY")
+        this.updateClassesNames()
+    }
+
+    updateClassesNames = () => {
+        let todayStr = moment().format("ddd, D MMM, YYYY")
         if (document.getElementById(todayStr)) {
-            document.getElementById(todayStr).setAttribute("class", "today-cell")
+            document.getElementById(todayStr).setAttribute("id", "today-cell")
         }
+        const agenda = this.props.agenda
+        Object.keys(agenda).forEach(key => {
+            if (document.getElementById(key)) {
+                if (key === this.props.selectedDay) document.getElementById(key).setAttribute("class", "selectedDay day-cell")
+                else if (agenda[key].length === 0) document.getElementById(key).setAttribute("class", "day-cell")
+                 else document.getElementById(key).setAttribute("class", "busy-days")
+            }
+        })
     }
 
     firstDayOfMonth = () => {
@@ -32,7 +48,7 @@ class Calender extends Component {
         })
     }
 
-   handleYearChange = (e , year) => {
+    handleYearChange = (e, year) => {
         let setDate = Object.assign({}, this.state.setDate)
         setDate = moment(setDate).set("year", year)
         this.setState(({
@@ -42,17 +58,17 @@ class Calender extends Component {
 
     changeDay = (e, dayNum) => {
         const { setDate } = this.state
-        this.props.changeDate(setDate.date(dayNum))
+        this.props.changeDate(moment(setDate).date(dayNum))
     }
 
     monthDropdown = () => {
-        const selectedMonth = this.state.setDate.format("MMMM");
+        const selectedMonth = moment(this.state.setDate).format("MMMM");
 
         let monthsNamesItems = monthsNames.map(month => {
-            if (selectedMonth == month) {
-                return <li key={month} > <a href="#" class="dropdown-item active" onClick={(e) => this.handleMonthChange(e, month)}> {month} </a> </li>
+            if (selectedMonth === month) {
+                return <li key={month} className="dropdown-item active"> <a href={"#" + month} onClick={(e) => this.handleMonthChange(e, month)}> {month} </a> </li>
             } else {
-                return <li key={month} > <a href="#" onClick={(e) => this.handleMonthChange(e, month)}> {month} </a> </li>
+                return <li key={month} > <a href={"#" + month} onClick={(e) => this.handleMonthChange(e, month)}> {month} </a> </li>
             }
         })
 
@@ -69,17 +85,17 @@ class Calender extends Component {
     }
 
     yearDropdown = () => {
-        const year = this.state.setDate.format("Y")
+        const year = moment(this.state.setDate).format("Y")
 
         let yearsItems = []
         for (let y = 2000; y <= 2030; y++) {
-            if (y == year) {
-                yearsItems.push(<li key={y} ><a href="#" class="dropdown-item active" onClick={(e) => this.handleYearChange(e, y)}> {y} </a></li>)
+            if (y === Number(year)) {
+                yearsItems.push(<li key={y} className="dropdown-item active"><a href={"#" + y} onClick={(e) => this.handleYearChange(e, y)}> {y} </a></li>)
             } else {
-                yearsItems.push(<li key={y}><a href="#" onClick={(e) => this.handleYearChange(e, y)}> {y} </a></li>)
+                yearsItems.push(<li key={y}><a href={"#" + y} onClick={(e) => this.handleYearChange(e, y)}> {y} </a></li>)
             }
         }
-        
+
         return (
             <div className="dropdown">
                 <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -93,8 +109,8 @@ class Calender extends Component {
     }
 
     render() {
-        const { setDate, today } = this.state
-        const daysInMonth = setDate.daysInMonth()
+        const { setDate } = this.state
+        const daysInMonth = moment(setDate).daysInMonth()
 
         let blanks = []
         for (let i = 0; i < this.firstDayOfMonth(); i++) {
@@ -102,7 +118,7 @@ class Calender extends Component {
         }
 
         let daysNamesCells = daysNames.map((day, i) => {
-            if (day == "Sun" || day == "Sat") {
+            if (day === "Sun" || day === "Sat") {
                 return <td key={i / 88} className="week-header-cell weekends-days"> <strong> {day} </strong> </td>
             }
             return <td key={i / 88} className="week-header-cell"> <strong> {day} </strong> </td>
@@ -111,8 +127,7 @@ class Calender extends Component {
         let monthDays = []
         for (let i = 1; i <= daysInMonth; i++) {
             let dateId = setDate.date(i).format("ddd, D MMM, YYYY")
-            let todayStr = today.format("ddd, D MMM, YYYY")
-            let checkWeekends = setDate.day()
+            let checkWeekends = moment(setDate).day()
 
             if (checkWeekends === 0 || checkWeekends === 6) {
                 monthDays.push(<td id={dateId} className="day-cell weekends-days" key={dateId} onClick={(e) => this.changeDay(e, i)}> {i} </td>)
@@ -141,27 +156,33 @@ class Calender extends Component {
         })
 
         let daysItems = rows.map((daysRow, i) => {
-            return <tr key={i / 97}> {daysRow} </tr>
+            return <tr key={i / 97}>{daysRow}</tr>
         })
 
+        let totalTasks = 0
+         Object.keys(this.props.agenda).forEach(key => {
+               totalTasks +=  this.props.agenda[key].length
+         })
+
         return (
-            <div className="main-div-calendar">
-                <div className="calendar-div">
-                    <div className="calendar-header">
-                        {this.monthDropdown()}
-                        {this.yearDropdown()}
-                    </div>
-                    <table className="calendar">
-                        <thead>
-                            <tr>
-                                {daysNamesCells}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {daysItems}
-                        </tbody>
-                    </table>
+            <div className="calendar-div">
+                <div className="calendar-header">
+                    {this.monthDropdown()}
+                    {this.yearDropdown()}
                 </div>
+                <table className="calendar">
+                    <thead>
+                        <tr>
+                            {daysNamesCells}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {daysItems}
+                    </tbody>
+                </table>
+                <p className="total-container">
+                    Total appointments in your calendar: {totalTasks}
+                </p>
             </div>
         )
     }

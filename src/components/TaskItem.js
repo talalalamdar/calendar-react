@@ -4,6 +4,7 @@ import FaEdit from "react-icons/lib/fa/edit"
 import CheckSquare from "react-icons/lib/fa/check-square"
 import Cancel from "react-icons/lib/fa/close"
 
+import moment from "moment"
 
 class TaskItem extends Component {
     state = {
@@ -32,7 +33,8 @@ class TaskItem extends Component {
 
     handleEdit = (id) => {
         const { editedLocation, editedTime, editedTitle} = this.state
-        this.props.onEdit(id, {title : editedTitle, location: editedLocation, time: editedTime})
+        let timeStr = moment(editedTime, "HH:mm").format("HH:mm")
+        this.props.onEdit(id, {title : editedTitle, location: editedLocation, time: timeStr })
         this.cancelSelectedMode()
     }
 
@@ -65,8 +67,8 @@ class TaskItem extends Component {
         const { id } = this.props
 
         return (
-            <div class="task-item">
-                <li class="selected-item">
+            <div className="task-item">
+                <li className="selected-item">
                     <p>Are you sure you want to delete this?</p>
                     <CheckSquare className="confirm-btn" onClick={() => this.handleDelete(id)} />
                     <Cancel className="close-remove" onClick={this.cancelSelectedMode}>&times;</Cancel>
@@ -79,13 +81,13 @@ class TaskItem extends Component {
         const { title, location, id } = this.props
         return (
             <div>
-                <li class="selected-item">
-                    <input type="text" class="span1" onChange={e => this.onEditingTitle(e.target.value)} placeholder={title} value={this.state.editedTitle} />
+                <div className="selected-item">
+                    <input type="text" className="span1" onChange={e => this.onEditingTitle(e.target.value)} placeholder={title} value={this.state.editedTitle} />
                     at <input type="time" onChange={e => this.onEditingTime(e.target.value)} value={this.state.editedTime} /><br />
-                    In <input type="text" class="span1" onChange={e => this.onEditingLocation(e.target.value)} placeholder={location} value={this.state.editedLocation} />
+                    In <input type="text" className="span1" onChange={e => this.onEditingLocation(e.target.value)} placeholder={location} value={this.state.editedLocation} />
                     <CheckSquare className="confirm-btn" onClick={() => this.handleEdit(id)} />
                     <Cancel className="close-remove" onClick={this.cancelSelectedMode}>&times;</Cancel>
-                </li>
+                </div>
             </div>
         )
     }
@@ -104,7 +106,7 @@ class TaskItem extends Component {
             <div className="task-item">
                 <li> <strong> {title} at {time} </strong> <br />
                     In {location}
-                    <button class="close" onClick={this.activateDeleteMode}>&times;</button>
+                    <button className="close" onClick={this.activateDeleteMode}>&times;</button>
                     <FaEdit className="edit-btn" onClick={this.activateEditMode} />
                 </li>
             </div>
