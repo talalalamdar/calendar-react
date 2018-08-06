@@ -100,19 +100,19 @@ class App extends Component {
     })
   }
 
-  idGenerator = () => {
+  idGenerator = () => {                                         // to generate unique id's for each task
     return '_' + Math.random().toString(36).substr(2, 9);
   }
 
   render() {
     const { day, agenda } = this.state
-    console.log(agenda)
+
     return (
       <React.Fragment>
         <Header className="page-header" />
         <div className="main-container">
           <DayDetails selectedDay={day}
-            agenda={this.state.agenda}
+            agenda={agenda}
             addingTask={this.onAddingTask}
             deletingTask={this.deleteTask}
             editingTask={this.editTask} />

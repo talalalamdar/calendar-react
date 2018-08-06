@@ -32,9 +32,9 @@ class TaskItem extends Component {
     }
 
     handleEdit = (id) => {
-        const { editedLocation, editedTime, editedTitle} = this.state
+        const { editedLocation, editedTime, editedTitle } = this.state
         let timeStr = moment(editedTime, "HH:mm").format("HH:mm")
-        this.props.onEdit(id, {title : editedTitle, location: editedLocation, time: timeStr })
+        this.props.onEdit(id, { title: editedTitle, location: editedLocation, time: timeStr })
         this.cancelSelectedMode()
     }
 
@@ -80,14 +80,12 @@ class TaskItem extends Component {
     editModal = () => {
         const { title, location, id } = this.props
         return (
-            <div>
-                <div className="selected-item">
-                    <input type="text" className="span1" onChange={e => this.onEditingTitle(e.target.value)} placeholder={title} value={this.state.editedTitle} />
-                    at <input type="time" onChange={e => this.onEditingTime(e.target.value)} value={this.state.editedTime} /><br />
-                    In <input type="text" className="span1" onChange={e => this.onEditingLocation(e.target.value)} placeholder={location} value={this.state.editedLocation} />
-                    <CheckSquare className="confirm-btn" onClick={() => this.handleEdit(id)} />
-                    <Cancel className="close-remove" onClick={this.cancelSelectedMode}>&times;</Cancel>
-                </div>
+            <div className="selected-item">
+                <input type="text" className="span1" onChange={e => this.onEditingTitle(e.target.value)} placeholder={title} value={this.state.editedTitle} />
+                at <input type="time" onChange={e => this.onEditingTime(e.target.value)} value={this.state.editedTime} /><br />
+                In <input type="text" className="span1" onChange={e => this.onEditingLocation(e.target.value)} placeholder={location} value={this.state.editedLocation} />
+                <CheckSquare className="confirm-btn" onClick={() => this.handleEdit(id)} />
+                <Cancel className="close-remove" onClick={this.cancelSelectedMode}>&times;</Cancel>
             </div>
         )
     }

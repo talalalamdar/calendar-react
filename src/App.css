@@ -154,7 +154,7 @@ input {
   margin: 0.5em;
   padding: 0.5em;
   border-radius: 1em;
-  background: linear-gradient(to right, rgb(218, 217, 217), #ffffff);
+  background: linear-gradient(to right, rgb(240, 238, 238), #ffffff);
   overflow: hidden;
   box-sizing: content-box;
 }
