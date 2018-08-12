@@ -39,7 +39,8 @@ body {
 }
 
 .calendar {
-  width: 90%;
+  box-sizing: content-box;
+  overflow: hidden;
   background-color: white;
   border-radius: 10px;
   box-shadow: 5px 10px 18px #888888;
@@ -84,12 +85,13 @@ tr td {
 
 .calendar-div {
   width: 35%;
+  display: flex;
+  flex-direction: column;
 }
 
 
 .calendar-header {
   padding:  7px;
-  width: 90%;
   background-color: white;
   border-radius: 10px;
   border-top: 1px solid #FFE200;
@@ -256,7 +258,6 @@ input {
   font-size: 18px;
   padding:10px;
   margin-top: 5px;
-  width: 90%;
   border: 1px solid #fff56e;
   border-radius: 5%;
   box-shadow: 5px 10px 18px #888888;
