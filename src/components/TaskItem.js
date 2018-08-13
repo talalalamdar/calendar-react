@@ -81,7 +81,7 @@ class TaskItem extends Component {
     }
 
     editModal = () => {
-        const { title, location, id } = this.props
+        const { id } = this.props
         return (
             <div className="selected-item">
                 <input type="text" className="span1" onChange={e => this.onEditingTitle(e.target.value)} value={this.state.editedTitle} />
@@ -94,7 +94,7 @@ class TaskItem extends Component {
     }
 
     render() {
-        const { title, location, time } = this.props
+        const { title, location, time, repeatWeekly, repeatMonthly } = this.props
 
         if (this.state.toggleDelete) {
             return this.deleteModal()
@@ -106,9 +106,11 @@ class TaskItem extends Component {
         return (
             <div className="task-item">
                 <li> <strong> {title} at {time} </strong> <br />
-                    In {location}
+                    In {location} <br />
                     <button className="close" onClick={this.activateDeleteMode}>&times;</button>
                     <FaEdit className="edit-btn" onClick={this.activateEditMode} />
+                    {repeatWeekly ? "Repeat weekly" : ""} <br />
+                    {repeatMonthly ? "Repeat monthly" : ""}
                 </li>
             </div>
         )

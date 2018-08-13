@@ -187,6 +187,7 @@ render() {
             </table>
             <p className="total-container">
                 Total appointments in your calendar: {totalTasks}
+                <button type="button" className="btn btn-danger deleteAll-btn" onClick={this.props.deleteAll} >Delete all</button>
             </p>
         </div>
     )

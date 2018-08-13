@@ -77,6 +77,8 @@ class DayDetails extends Component {
                     title={task.title}
                     time={task.time}
                     location={task.location}
+                    repeatWeekly={task.repeatWeekly}
+                    repeatMonthly={task.repeatMonthly}
                     onDelete={this.onDeleteTask}
                     onEdit={this.onEditTask} />
             )

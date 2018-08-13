@@ -85,6 +85,14 @@ class App extends Component {
     })
   }
 
+  deleteAllTasks = () => {
+    this.setState({
+      agenda: {}
+    })
+    localStorage.setItem("agenda", JSON.stringify({}))
+    window.location.reload()
+  }
+
   editTask = (taskId, newValue) => {
     const { day, agenda } = this.state
     let newState = agenda[day].map(task => {
@@ -118,7 +126,8 @@ class App extends Component {
             editingTask={this.editTask} />
           <Calendar changeDate={this.onDayChange}
             agenda={agenda}
-            selectedDay={day} />
+            selectedDay={day}
+            deleteAll={this.deleteAllTasks} />
         </div>
       </React.Fragment>
     );
