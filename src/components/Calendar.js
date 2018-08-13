@@ -39,17 +39,17 @@ class Calender extends Component {
     }
 
     handleMonthChange = (e, month) => {
+        const { dateContext } = this.state
         const monthNumber = monthsNames.indexOf(month)
-        let setDate = Object.assign({}, this.state.dateContext)
-        setDate = moment(setDate).set("month", monthNumber)
+        let setDate = moment(dateContext).set("month", monthNumber)
         this.setState({
-            setDate: setDate
+            dateContext: setDate
         })
     }
 
     handleYearChange = (e, year) => {
-        let setDate = Object.assign({}, this.state.dateContext)
-        setDate = moment(setDate).set("year", year)
+        const { dateContext } = this.state
+        let setDate = moment(dateContext).set("year", year)
         this.setState(({
             dateContext: setDate
         }))
@@ -85,12 +85,14 @@ class Calender extends Component {
 
     yearDropdown = () => {
         const year = moment(this.state.dateContext).format("Y")
+
         const currentYear = moment().format("Y")
         let yearsItems = [currentYear]
         for (let y = 1; y <= 5; y++) {
             yearsItems.push(moment(currentYear, "Y").add(y, "year").format("Y"))
             yearsItems.unshift(moment(currentYear, "Y").subtract(y, "year").format("Y"))
         }
+        
         let yearsEleArray = yearsItems.map(item => { 
             if (item === year) {
                 return <li key={item} className="dropdown-item active"><a href={"#" + item} onClick={(e) => this.handleYearChange(e, item)}> {item} </a></li>

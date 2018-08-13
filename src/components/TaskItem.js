@@ -59,7 +59,10 @@ class TaskItem extends Component {
     cancelSelectedMode = () => {
         this.setState({
             toggleDelete: false,
-            toggleEdit: false
+            toggleEdit: false,
+            editedTitle: this.props.title,
+            editedLocation: this.props.location,
+            editedTime: this.props.time
         })
     }
 
@@ -81,9 +84,9 @@ class TaskItem extends Component {
         const { title, location, id } = this.props
         return (
             <div className="selected-item">
-                <input type="text" className="span1" onChange={e => this.onEditingTitle(e.target.value)} placeholder={title} value={this.state.editedTitle} />
+                <input type="text" className="span1" onChange={e => this.onEditingTitle(e.target.value)} value={this.state.editedTitle} />
                 at <input type="time" onChange={e => this.onEditingTime(e.target.value)} value={this.state.editedTime} /><br />
-                In <input type="text" className="span1" onChange={e => this.onEditingLocation(e.target.value)} placeholder={location} value={this.state.editedLocation} />
+                In <input type="text" className="span1" onChange={e => this.onEditingLocation(e.target.value)} value={this.state.editedLocation} />
                 <CheckSquare className="confirm-btn" onClick={() => this.handleEdit(id)} />
                 <Cancel className="close-remove" onClick={this.cancelSelectedMode}>&times;</Cancel>
             </div>
