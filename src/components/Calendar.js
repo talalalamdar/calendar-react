@@ -146,7 +146,14 @@ render() {
     let cells = []
 
     totalCells.forEach((cell, i) => {
-        if (i % 7 === 0) {
+        if ( i % 7 === 0 && i === totalCells.length - 1 ) {
+            let row = cells.slice()
+            rows.push(row)
+            cells = []
+            cells.push(cell)
+            row = cells.slice()
+            rows.push(row)
+        } else if (i % 7 === 0) {
             let row = cells.slice()
             rows.push(row)
             cells = []
