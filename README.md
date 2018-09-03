@@ -1,2 +1,2 @@
 Calendar 
-made with ReactJs
+made with ReactJs and moment-js
