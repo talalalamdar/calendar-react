@@ -92,8 +92,8 @@ class Calender extends Component {
             yearsItems.push(moment(currentYear, "Y").add(y, "year").format("Y"))
             yearsItems.unshift(moment(currentYear, "Y").subtract(y, "year").format("Y"))
         }
-        
-        let yearsEleArray = yearsItems.map(item => { 
+
+        let yearsEleArray = yearsItems.map(item => {
             if (item === year) {
                 return <li key={item} className="dropdown-item active"><a href={"#" + item} onClick={(e) => this.handleYearChange(e, item)}> {item} </a></li>
             } else {
@@ -101,104 +101,104 @@ class Calender extends Component {
             }
         })
 
-    return (
-            <div className = "dropdown" >
-            <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                {year}
-            </button>
-            <ul className="dropdown-menu" >
-                {yearsEleArray}
-            </ul>
+        return (
+            <div className="dropdown" >
+                <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                    {year}
+                </button>
+                <ul className="dropdown-menu" >
+                    {yearsEleArray}
+                </ul>
             </div>
         )
     }
 
-render() {
-    const { dateContext } = this.state
-    const daysInMonth = moment(dateContext).daysInMonth()
+    render() {
+        const { dateContext } = this.state
+        const daysInMonth = moment(dateContext).daysInMonth()
 
-    let blanks = []
-    for (let i = 0; i < this.firstDayOfMonth(); i++) {
-        blanks.push(<td key={i % 77} className="blanks"> {" "}  </td>)
-    }
-
-    let daysNamesCells = daysNames.map((day, i) => {
-        if (day === "Sun" || day === "Sat") {
-            return <td key={i / 88} className="week-header-cell weekends-days"> <strong> {day} </strong> </td>
+        let blanks = []
+        for (let i = 0; i < this.firstDayOfMonth(); i++) {
+            blanks.push(<td key={i % 77} className="blanks"> {" "}  </td>)
         }
-        return <td key={i / 88} className="week-header-cell"> <strong> {day} </strong> </td>
-    })
 
-    let monthDays = []
-    for (let i = 1; i <= daysInMonth; i++) {
-        let dateId = dateContext.date(i).format("ddd, D MMM, YYYY")
-        let checkWeekends = moment(dateContext).day()
+        let daysNamesCells = daysNames.map((day, i) => {
+            if (day === "Sun" || day === "Sat") {
+                return <td key={i / 88} className="week-header-cell weekends-days"> <strong> {day} </strong> </td>
+            }
+            return <td key={i / 88} className="week-header-cell"> <strong> {day} </strong> </td>
+        })
 
-        if (checkWeekends === 0 || checkWeekends === 6) {
-            monthDays.push(<td id={dateId} className="day-cell weekends-days" key={dateId} onClick={(e) => this.changeDay(e, i)}> {i} </td>)
-        } else {
-            monthDays.push(<td id={dateId} className="day-cell" key={dateId} onClick={(e) => this.changeDay(e, i)}> {i} </td>)
+        let monthDays = []
+        for (let i = 1; i <= daysInMonth; i++) {
+            let dateId = dateContext.date(i).format("ddd, D MMM, YYYY")
+            let checkWeekends = moment(dateContext).day()
+
+            if (checkWeekends === 0 || checkWeekends === 6) {
+                monthDays.push(<td id={dateId} className="day-cell weekends-days" key={dateId} onClick={(e) => this.changeDay(e, i)}> {i} </td>)
+            } else {
+                monthDays.push(<td id={dateId} className="day-cell" key={dateId} onClick={(e) => this.changeDay(e, i)}> {i} </td>)
+            }
         }
-    }
 
-    let totalCells = [...blanks, ...monthDays]
-    let rows = []
-    let cells = []
+        let totalCells = [...blanks, ...monthDays]
+        let rows = []
+        let cells = []
 
-    totalCells.forEach((cell, i) => {
-        if ( i % 7 === 0 && i === totalCells.length - 1 ) {
-            let row = cells.slice()
-            rows.push(row)
-            cells = []
-            cells.push(cell)
-            row = cells.slice()
-            rows.push(row)
-        } else if (i % 7 === 0) {
-            let row = cells.slice()
-            rows.push(row)
-            cells = []
-            cells.push(cell)
-        } else if (i === totalCells.length - 1) {
-            cells.push(cell)
-            let row = cells.slice()
-            rows.push(row)
-        } else {
-            cells.push(cell)
-        }
-    })
+        totalCells.forEach((cell, i) => {
+            if (i % 7 === 0 && i === totalCells.length - 1) {
+                let row = cells.slice()
+                rows.push(row)
+                cells = []
+                cells.push(cell)
+                row = cells.slice()
+                rows.push(row)
+            } else if (i % 7 === 0) {
+                let row = cells.slice()
+                rows.push(row)
+                cells = []
+                cells.push(cell)
+            } else if (i === totalCells.length - 1) {
+                cells.push(cell)
+                let row = cells.slice()
+                rows.push(row)
+            } else {
+                cells.push(cell)
+            }
+        })
 
-    let daysItems = rows.map((daysRow, i) => {
-        return <tr key={i / 97}>{daysRow}</tr>
-    })
+        let daysItems = rows.map((daysRow, i) => {
+            return <tr key={i / 97}>{daysRow}</tr>
+        })
 
-    let totalTasks = 0
-    Object.keys(this.props.agenda).forEach(key => {
-        totalTasks += this.props.agenda[key].length
-    })
+        let totalTasks = 0
+        Object.keys(this.props.agenda).forEach(key => {
+            totalTasks += this.props.agenda[key].length
+        })
 
-    return (
-        <div className="calendar-div">
-            <div className="calendar-header">
-                {this.monthDropdown()}
-                {this.yearDropdown()}
+        return (
+            <div className="calendar-div">
+                <div className="calendar-header">
+                    {this.monthDropdown()}
+                    {this.yearDropdown()}
+                </div>
+                <table className="calendar">
+                    <thead>
+                        <tr>
+                            {daysNamesCells}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {daysItems}
+                    </tbody>
+                </table>
+                <p className="total-container">
+                    Total appointments in your calendar: {totalTasks}
+                    <button type="button" className="btn btn-danger deleteAll-btn" onClick={this.props.deleteAll} >Delete all</button>
+                </p>
             </div>
-            <table className="calendar">
-                <thead>
-                    <tr>
-                        {daysNamesCells}
-                    </tr>
-                </thead>
-                <tbody>
-                    {daysItems}
-                </tbody>
-            </table>
-            <p className="total-container">
-                Total appointments in your calendar: {totalTasks}
-                <button type="button" className="btn btn-danger deleteAll-btn" onClick={this.props.deleteAll} >Delete all</button>
-            </p>
-        </div>
-    )
-}
+        )
+    }
 }
 
 export default Calender
