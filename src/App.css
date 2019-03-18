@@ -1,7 +1,18 @@
 body {
-  background: linear-gradient(to right, #FFE200, #ffffff);
+  background: #FFE200;
+  /* Old browsers */
+  background: -moz-linear-gradient(-45deg, #FFE200 7%, #fefcea 75%, #fefcea 75%, #fefcea 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, #FFE200 7%, #fefcea 75%, #fefcea 75%, #fefcea 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #FFE200 7%, #fefcea 75%, #fefcea 75%, #fefcea 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  /* filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f1da36', endColorstr='#fefcea', GradientType=1); */
+  /* IE6-9 fallback on horizontal gradient */
   background-size: cover;
   background-repeat: no-repeat;
+  height: 100vh;
+  background-attachment: fixed;
 }
 
 .page-header {
@@ -16,9 +27,9 @@ body {
   padding-top: 0px;
   padding-left: 20px;
   color: black;
-  width: 100%;;
+  width: 100%;
   float: left;
-  background: linear-gradient(to right, #FFE200, #ffffff);
+  margin-bottom: 50px;
 }
 
 .App-title {
@@ -28,23 +39,22 @@ body {
 
 .main-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-flow: row wrap;
-  width: 95%;
+  width: 100%;
 }
 
 .icon-calendar {
-  width:100%;
+  width: 100%;
   color: black
 }
 
 .calendar {
   box-sizing: content-box;
-  overflow: hidden;
+  overflow-x: hidden;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 5px 10px 18px #888888;
-  border-collapse: separate; 
+  border-collapse: separate;
   border-spacing: 5px;
 }
 
@@ -59,46 +69,50 @@ body {
 .week-header-cell {
   text-align: center;
   margin: auto;
-  border-bottom:1px solid #888888 ;
+  border-bottom: 1px solid #888888;
   border-radius: 0px;
 }
 
-tr:nth-child(odd) {background-color: #f2f2f2;}
-
-.day-cell:hover {
-  border: 1px solid black;
+tr:nth-child(odd) {
+  background-color: #f2f2f2;
 }
 
-.weekends-days {
-  color: red;
+.day-cell:hover {
+  background-color: lightgray;
 }
 
 tr td {
-  padding: 15px;
-  margin: 3px; 
+  padding: 5px;
   border-radius: 8px;
+  height: 50px;
+}
+
+table {
+  overflow: hidden;
 }
 
 .calendar-div {
-  width: 35%;
+  width: 90%;
+  height: fit-content;
+  background-color: white;
   display: flex;
   flex-direction: column;
+  border-radius: 7px;
+  border: 1px solid lightgray;
+  padding: 15px;
+  margin-bottom: 20px;
+  -webkit-box-shadow: 0px 4px 8px 0px rgba(85, 83, 83, 0.5);
+  -moz-box-shadow: 0px 4px 8px 0px rgba(85, 83, 83, 0.5);
+  box-shadow: 0px 4px 8px 0px rgba(85, 83, 83, 0.5);
 }
-
 
 .calendar-header {
-  padding:  7px;
+  padding: 7px;
   background-color: white;
   border-radius: 10px;
-  border-top: 1px solid #FFE200;
   margin-bottom: 5px;
   display: flex;
-  justify-content: space-around;
-  box-shadow: 5px 10px 18px #888888;
-}
-
-.dropdown {
-   float: right;
+  justify-content: center;
 }
 
 .day-name {
@@ -116,16 +130,19 @@ tr td {
   font-size: 18px;
   margin: 15px;
   margin-top: 0px;
-  padding:10px;
-  width: 55%;
+  padding: 15px;
+  width: 100%;
   min-height: 70vh;
-  border: 1px solid #fff56e;
-  border-radius: 5%;
-  box-shadow: 5px 10px 18px #888888;
+  border: 1px solid lightgray;
+  border-radius: 7px;
+  -webkit-box-shadow: 0px 4px 8px 0px rgba(85, 83, 83, 0.5);
+  -moz-box-shadow: 0px 4px 8px 0px rgba(85, 83, 83, 0.5);
+  box-shadow: 0px 4px 8px 0px rgba(85, 83, 83, 0.5);
+  z-index: 10;
+  margin-bottom: 80px;
 }
 
 .side-bar p {
-  font-weight: 750;
   margin-left: 5px;
 }
 
@@ -143,18 +160,24 @@ input {
 }
 
 .task-item li:hover {
-  background: linear-gradient(to right, #FFE200, #ffffff);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
 }
 
 .task-item li {
-  display:inline-block;
-  width: 80%;
   margin: 0.5em;
-  padding: 0.5em;
-  border-radius: 1em;
-  background: linear-gradient(to right, rgb(240, 238, 238), #ffffff);
+  padding: 16px;
+  border-radius: 8px;
   overflow: hidden;
   box-sizing: content-box;
+  list-style: none;
+  border: 1px solid lightgray;
+}
+
+.task-item {
+  width: 100%;
+  list-style: none;
 }
 
 .close {
@@ -169,7 +192,7 @@ input {
   width: 1.5em;
   height: 1.5em;
   padding: 2px;
-  float:right;
+  float: right;
   position: relative;
   opacity: 0.5;
   cursor: pointer;
@@ -207,18 +230,17 @@ input {
 }
 
 .well input {
-  margin:7px;
+  margin: 7px;
 }
 
 .selected-item {
-  background: linear-gradient(to right, #FFE200, #ffffff) !important;
-  width: 80%;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
   padding: 10px;
-}
-
-.selected-item input {
-  margin: 7px;
-  padding:2px;
+  font-size: 18px;
+  font-weight: 200 !important;
+  height: 100%;
 }
 
 .active {
@@ -226,39 +248,66 @@ input {
   background-color: blue;
 }
 
-.busy-days {
-  border: 1px dotted red;
-  text-align: center;
-  margin: auto;
-  width: 5px;
-  height: 5px;
-  cursor: pointer;
-  border-radius: 8px;
-  font-weight: bolder;
+:required {
+  border: 1px solid red;
+}
+.form-row {
+  margin-bottom: 20px;
 }
 
-#today-cell {
-  background-color: rgb(48, 62, 180) !important;
-  color: white !important;
-  cursor: pointer !important;
-  margin: auto !important;
-  text-align: center !important;
-}
-
-.selectedDay {
-  border: 2px solid black !important;
+.delete-div {
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
+  box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
 }
 
 .total-container {
   background-color: #ffffff;
   font-size: 18px;
   padding: 10px;
+  padding-top: 20px;
   margin-top: 10px;
-  border: 1px solid #fff56e;
-  border-radius: 5%;
-  box-shadow: 5px 10px 18px #888888;
+  border-top: 1px solid lightgray;
 }
 
 .deleteAll-btn {
   float: right;
+}
+
+@media only screen and (min-width: 725px) {
+  .App-header {
+    padding-left: 4%
+  }
+  tr td {
+    padding: 10px;
+  }
+  .task-item {
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .calendar-div {
+    width: 45%;
+  }
+  tr td {
+    padding: 15px;
+  }
+}
+
+@media only screen and (min-width: 1335px) {
+  .App-header {
+    padding-left: 8%
+  }
+  .side-bar {
+    width: 55%;
+  }
+  .calendar-div {
+    width: 35%;
+    margin-right: 30px;
+  }
+  .main-container {
+    padding: 20px;
+    padding-left: 5%;
+  }
 }

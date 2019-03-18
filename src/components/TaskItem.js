@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 
-import FaEdit from "react-icons/lib/fa/edit"
-import CheckSquare from "react-icons/lib/fa/check-square"
-import Cancel from "react-icons/lib/fa/close"
+import { FaEdit, FaRegCheckSquare, FaRegWindowClose } from "react-icons/fa"
 
 import moment from "moment"
+
+import { Form , Col} from 'react-bootstrap'
 
 class TaskItem extends Component {
     state = {
@@ -67,14 +67,18 @@ class TaskItem extends Component {
     }
 
     deleteModal = () => {
-        const { id } = this.props
+        const { id, title } = this.props
 
         return (
             <div className="task-item">
-                <li className="selected-item">
-                    <p>Are you sure you want to delete this?</p>
-                    <CheckSquare className="confirm-btn" onClick={() => this.handleDelete(id)} />
-                    <Cancel className="close-remove" onClick={this.cancelSelectedMode}>&times;</Cancel>
+                <li>
+                    <p style={{ fontSize: '18px', fontWight: 200 }}>Are you sure you want to delete <strong>{title}</strong> ?</p>
+                    <div className="confirm-btn" onClick={() => this.handleDelete(id)}  title='Confirm'>
+                        <FaRegCheckSquare  />
+                    </div>
+                    <div className='close-remove' title="Cancel"  onClick={this.cancelSelectedMode}>
+                        <FaRegWindowClose>&times;</FaRegWindowClose>
+                    </div>
                 </li>
             </div>
         )
@@ -83,13 +87,26 @@ class TaskItem extends Component {
     editModal = () => {
         const { id } = this.props
         return (
-            <div className="selected-item">
-                <input type="text" className="span1" onChange={e => this.onEditingTitle(e.target.value)} value={this.state.editedTitle} />
-                at <input type="time" onChange={e => this.onEditingTime(e.target.value)} value={this.state.editedTime} /><br />
-                In <input type="text" className="span1" onChange={e => this.onEditingLocation(e.target.value)} value={this.state.editedLocation} />
-                <CheckSquare className="confirm-btn" onClick={() => this.handleEdit(id)} />
-                <Cancel className="close-remove" onClick={this.cancelSelectedMode}>&times;</Cancel>
+            <div className="task-item">
+                <div className="selected-item">
+                    <Col  className="form-row" md={8}>
+                        <Form.Control type="text" className="span1" onChange={e => this.onEditingTitle(e.target.value)} value={this.state.editedTitle} required />
+                    </Col>
+                    <Col  className="form-row" md={8}>
+                        at <Form.Control type="time" onChange={e => this.onEditingTime(e.target.value)} value={this.state.editedTime} required />
+                    </Col>
+                    <Col  className="form-row" md={8}>
+                        In <Form.Control type="text" className="span1" onChange={e => this.onEditingLocation(e.target.value)} value={this.state.editedLocation} required />
+                    </Col>
+                    <div className="confirm-btn" onClick={() => this.handleEdit(id)} title='Update'>
+                        <FaRegCheckSquare  />
+                    </div>
+                    <div className="close-remove" onClick={this.cancelSelectedMode} title='Cancel'>
+                        <FaRegWindowClose >&times;</FaRegWindowClose>
+                    </div>
+                </div>
             </div>
+
         )
     }
 
@@ -105,10 +122,12 @@ class TaskItem extends Component {
 
         return (
             <div className="task-item">
-                <li> <strong> {title} at {time} </strong> <br />
-                    In {location} <br />
-                    <button className="close" onClick={this.activateDeleteMode}>&times;</button>
-                    <FaEdit className="edit-btn" onClick={this.activateEditMode} />
+                <li> <strong> {title} </strong> at <strong> {time} </strong> <br />
+                    In <strong> {location}</strong> <br />
+                    <button className="close" title='Close' onClick={this.activateDeleteMode}>&times;</button>
+                    <div onClick={this.activateEditMode} className="edit-btn" title='Edit'>
+                        <FaEdit  />
+                    </div>
                     {repeatWeekly ? "Repeat weekly" : ""} <br />
                     {repeatMonthly ? "Repeat monthly" : ""}
                 </li>

@@ -1,35 +1,23 @@
 import React, { Component } from "react"
 import moment from "moment"
 
+import { Dropdown } from 'react-bootstrap'
+import { FaCaretDown } from 'react-icons/fa'
+
 const daysNames = moment.weekdaysShort()
 const monthsNames = moment.months()
 
 class Calender extends Component {
     state = {
         dateContext: moment(),
+        todayStr: moment().format("ddd, D MMM, YYYY")
     }
 
-    componentDidMount() {
-        this.updateClassesNames()
-    }
-
-    componentDidUpdate() {
-        this.updateClassesNames()
-    }
-
-    updateClassesNames = () => {
-        let todayStr = moment().format("ddd, D MMM, YYYY")
-        if (document.getElementById(todayStr)) {
-            document.getElementById(todayStr).setAttribute("id", "today-cell")
+    shouldComponentUpdate(nextProps) {
+        if (Object.keys(nextProps.agenda).length === 0 || nextProps.selectedDay !== this.state.dateContext) {
+            return true
         }
-        const agenda = this.props.agenda
-        Object.keys(agenda).forEach(key => {
-            if (document.getElementById(key)) {
-                if (key === this.props.selectedDay) document.getElementById(key).setAttribute("class", "selectedDay day-cell")
-                else if (agenda[key].length === 0) document.getElementById(key).setAttribute("class", "day-cell")
-                else document.getElementById(key).setAttribute("class", "busy-days")
-            }
-        })
+        return false
     }
 
     firstDayOfMonth = () => {
@@ -64,22 +52,24 @@ class Calender extends Component {
         const selectedMonth = moment(this.state.dateContext).format("MMMM");
 
         let monthsNamesItems = monthsNames.map(month => {
-            if (selectedMonth === month) {
-                return <li key={month} className="dropdown-item active"> <a href={"#" + month} onClick={(e) => this.handleMonthChange(e, month)}> {month} </a> </li>
-            } else {
-                return <li key={month} > <a href={"#" + month} onClick={(e) => this.handleMonthChange(e, month)}> {month} </a> </li>
-            }
+            return (
+                <li key={month} className={selectedMonth === month ? 'dropdown-item active' : ''}>
+                    <a href={"#" + month} onClick={(e) => this.handleMonthChange(e, month)}>
+                        {month}
+                    </a>
+                </li>
+            )
         })
 
         return (
-            <div className="dropdown">
-                <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    {selectedMonth}
-                </button>
-                <ul className="dropdown-menu" >
+            <Dropdown style={{ width: '25%', paddingRight: 20 }} >
+                <Dropdown.Toggle style={{ backgroundColor: 'white', color: 'black', width: '100%' }} >
+                    {selectedMonth}  <FaCaretDown />
+                </Dropdown.Toggle>
+                <Dropdown.Menu  >
                     {monthsNamesItems}
-                </ul>
-            </div>
+                </Dropdown.Menu>
+            </Dropdown>
         )
     }
 
@@ -94,27 +84,41 @@ class Calender extends Component {
         }
 
         let yearsEleArray = yearsItems.map(item => {
-            if (item === year) {
-                return <li key={item} className="dropdown-item active"><a href={"#" + item} onClick={(e) => this.handleYearChange(e, item)}> {item} </a></li>
-            } else {
-                return <li key={item}><a href={"#" + item} onClick={(e) => this.handleYearChange(e, item)}> {item} </a></li>
-            }
+            return (
+                <li key={item} className={item === year ? "dropdown-item active" : ''}>
+                    <a href={"#" + item} onClick={(e) => this.handleYearChange(e, item)}>
+                        {item}
+                    </a>
+                </li>
+            )
         })
 
         return (
-            <div className="dropdown" >
-                <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                    {year}
-                </button>
-                <ul className="dropdown-menu" >
+            <Dropdown style={{ width: '25%' }}>
+                <Dropdown.Toggle style={{ backgroundColor: 'white', color: 'black', width: '100%' }} id="dropdown-basic">
+                    {year} <FaCaretDown />
+                </Dropdown.Toggle>
+                <Dropdown.Menu  >
                     {yearsEleArray}
-                </ul>
-            </div>
+                </Dropdown.Menu>
+            </Dropdown>
         )
     }
 
+    renderTasksIndicators = (dayTotalTasks) => {
+        let res = []
+        let i = 0
+        for (i; i < dayTotalTasks; i++) {
+           res.push(
+                <strong key={i} style={{fontSize: '30px'}}>.</strong>
+            )
+        }
+        return res
+    }
+
     render() {
-        const { dateContext } = this.state
+        const { dateContext, todayStr } = this.state
+        const { agenda } = this.props
         const daysInMonth = moment(dateContext).daysInMonth()
 
         let blanks = []
@@ -123,22 +127,34 @@ class Calender extends Component {
         }
 
         let daysNamesCells = daysNames.map((day, i) => {
-            if (day === "Sun" || day === "Sat") {
-                return <td key={i / 88} className="week-header-cell weekends-days"> <strong> {day} </strong> </td>
-            }
-            return <td key={i / 88} className="week-header-cell"> <strong> {day} </strong> </td>
-        })
+            return (
+                <td key={i / 88} style={day === "Sun" || day === "Sat" ? styles.weekendsCellsStyle : {}} className="week-header-cell">
+                    <strong>
+                        {day}
+                    </strong>
+                </td>
+            )
 
+        })
         let monthDays = []
         for (let i = 1; i <= daysInMonth; i++) {
             let dateId = dateContext.date(i).format("ddd, D MMM, YYYY")
             let checkWeekends = moment(dateContext).day()
+            let isBusyDay = Object.keys(agenda).some(key => (key === dateId))
+            let dayTotalTasks = agenda[dateId] && agenda[dateId].length ? agenda[dateId].length : 0
 
-            if (checkWeekends === 0 || checkWeekends === 6) {
-                monthDays.push(<td id={dateId} className="day-cell weekends-days" key={dateId} onClick={(e) => this.changeDay(e, i)}> {i} </td>)
-            } else {
-                monthDays.push(<td id={dateId} className="day-cell" key={dateId} onClick={(e) => this.changeDay(e, i)}> {i} </td>)
-            }
+            monthDays.push(
+                <td id={dateId}
+                    style={todayStr === dateId ? styles.todayCellStyle : dateId === this.props.selectedDay ? styles.selectedDay : checkWeekends === 0 || checkWeekends === 6 ? styles.weekendsCellsStyle : isBusyDay ? styles.busyDayStyle : {}} className="day-cell" key={dateId} onClick={(e) => this.changeDay(e, i)}>
+                    {i}
+                    <div style={{lineHeight: '0px'}}>
+                        {dayTotalTasks ?
+                            this.renderTasksIndicators(dayTotalTasks)
+                            : null}
+                    </div>
+                </td>
+            )
+
         }
 
         let totalCells = [...blanks, ...monthDays]
@@ -193,12 +209,32 @@ class Calender extends Component {
                     </tbody>
                 </table>
                 <p className="total-container">
-                    Total appointments in your calendar: {totalTasks}
+                    Total appointments in your calendar: <strong> {totalTasks}</strong>
                     <button type="button" className="btn btn-danger deleteAll-btn" onClick={this.props.deleteAll} >Delete all</button>
                 </p>
             </div>
         )
     }
+}
+
+const styles = {
+    todayCellStyle: {
+        backgroundColor: 'rgb(48, 62, 180)',
+        color: 'white',
+        cursor: 'pointer',
+        margin: 'auto',
+        textAlign: 'center'
+    },
+    selectedDay: {
+        border: '2px solid black'
+    },
+    busyDayStyle: {
+        border: '1px dotted red',
+    },
+    weekendsCellsStyle: {
+        color: 'red',
+    },
+
 }
 
 export default Calender

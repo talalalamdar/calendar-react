@@ -1,14 +1,13 @@
 import React, { Component } from "react"
 
-import FaCalendar from "react-icons/lib/fa/calendar"
-
+import { FaCalendarAlt } from "react-icons/fa"
 
 class Header extends Component {
 
   render() {
     return (
       <header className="App-header">
-        <h1 className="App-title"> <strong> Calendar </strong> <FaCalendar className="calendar-icon" /></h1>
+        <h1 className="App-title"> <strong> Calendar </strong> <FaCalendarAlt className="calendar-icon" /></h1>
       </header>
     );
   }

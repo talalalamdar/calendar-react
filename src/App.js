@@ -12,13 +12,6 @@ class App extends Component {
     agenda: {}
   }
 
-  componentDidMount() {
-    const { day } = this.state
-    if (document.getElementById(day)) {
-      document.getElementById(day).setAttribute("class", "selectedDay")
-    }
-  }
-
   componentWillMount() {
     const { day } = this.state
     if (localStorage.getItem("agenda")) {
@@ -42,20 +35,10 @@ class App extends Component {
   }
 
   onDayChange = (val) => {
-    const { day } = this.state
-    let selectedDay = document.getElementById(day)
-
-    if (selectedDay) {
-      selectedDay.classList.remove("selectedDay")
-    }
-
-    selectedDay = document.getElementById(moment(val).format("ddd, D MMM, YYYY"))
-    if (selectedDay) {
-      selectedDay.classList.remove("busy-days")
-      selectedDay.setAttribute("class", "day-cell selectedDay")
-    }
+    let selectedDay = moment(val).format("ddd, D MMM, YYYY")
+ 
     this.setState({
-      day: moment(val).format("ddd, D MMM, YYYY"),
+      day: selectedDay,
     })
   }
 
@@ -90,7 +73,6 @@ class App extends Component {
       agenda: {}
     })
     localStorage.setItem("agenda", JSON.stringify({}))
-    window.location.reload()
   }
 
   editTask = (taskId, newValue) => {
@@ -119,18 +101,31 @@ class App extends Component {
       <React.Fragment>
         <Header className="page-header" />
         <div className="main-container">
+          <Calendar changeDate={this.onDayChange}
+            agenda={agenda}
+            selectedDay={day}
+            deleteAll={this.deleteAllTasks} />
           <DayDetails selectedDay={day}
             agenda={agenda}
             addingTask={this.onAddingTask}
             deletingTask={this.deleteTask}
             editingTask={this.editTask} />
-          <Calendar changeDate={this.onDayChange}
-            agenda={agenda}
-            selectedDay={day}
-            deleteAll={this.deleteAllTasks} />
+        </div>
+        <div style={styles.authorDiv}>
+          by <a style={{color: 'gray'}} href='https://talalalamdar.surge.sh' target='__blank'>Talal Alamdar</a>
         </div>
       </React.Fragment>
     );
+  }
+}
+
+const styles = {
+  authorDiv: {
+    position: 'fixed',
+    bottom: '10px',
+    left: '10px',
+    zIndex: 0,
+    color: 'gray'
   }
 }
 

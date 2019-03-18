@@ -2,14 +2,15 @@ import React, { Component } from "react"
 import TaskItem from "./TaskItem"
 
 import moment from "moment"
-import FaPlus from "react-icons/lib/fa/plus"
+import { FaPlus } from "react-icons/fa"
+import { Form, Col, Button, Row } from 'react-bootstrap'
 
 const defaultState = {
     title: "",
     time: moment().format("HH:mm"),
     location: "",
     repeatWeekly: false,
-    repeatMonthly: false
+    repeatMonthly: false,
 }
 
 class DayDetails extends Component {
@@ -33,14 +34,15 @@ class DayDetails extends Component {
     }
 
     handleSubmit = (e) => {
+        e.preventDefault()
         const { title, time, location } = this.state
         if (title && time && location) {
-            e.preventDefault()
             this.props.addingTask(this.state)
             this.setState(defaultState)
+
         }
-        e.preventDefault()
     }
+
 
     onDeleteTask = (taskId) => {
         this.props.deletingTask(taskId)
@@ -53,16 +55,33 @@ class DayDetails extends Component {
     formDisplay = () => {
         const { title, location, time, repeatWeekly, repeatMonthly } = this.state
         return (
-            <form className="well" onSubmit={e => this.handleSubmit(e)}>
-                <input type="text" className="span2" onChange={e => this.handleChange(e.target.value, "title")} placeholder="Add a title" value={title} />
-                <input className="span2" onChange={e => this.handleChange(e.target.value, "location")} placeholder="Add a location" value={location} />
-                <input type="time" className="input-smal" onChange={e => this.handleChange(e.target.value, "time")} value={time} />
-                <div className="form-group">
-                    <input type="checkbox" onChange={() => this.handleCheckboxChange("repeatWeekly")} checked={repeatWeekly} /> Repeat weekly <br />
-                    <input type="checkbox" onChange={() => this.handleCheckboxChange("repeatMonthly")} checked={repeatMonthly} /> Repeat monthly <br />
-                </div>
-                <button type="submit" className="btn btn-success"> <FaPlus /> Add new event</button>
-            </form>
+            <Form style={styles.formStyle}
+                onSubmit={e => this.handleSubmit(e)}>
+                <Row >
+                    <Col sm={6} md={5} style={styles.formInput}>
+                        <Form.Control type="text" onChange={e => this.handleChange(e.target.value, "title")} placeholder="Add a title" value={title} required />
+                    </Col>
+                    <Col sm={6} md={5} style={styles.formInput}>
+                        <Form.Control onChange={e => this.handleChange(e.target.value, "location")} placeholder="Add a location" value={location} required />
+                    </Col>
+                </Row>
+                <Row >
+                    <Col sm={4} md={4} style={styles.formInput}>
+                        <Form.Control type="time" onChange={e => this.handleChange(e.target.value, "time")} value={time} />
+                    </Col>
+                    <Col sm={4} md={4} style={styles.formInput}>
+                        <Form.Group>
+                            <input type="checkbox" onChange={() => this.handleCheckboxChange("repeatWeekly")} checked={repeatWeekly} /> Repeat weekly <br />
+                            <input type="checkbox" onChange={() => this.handleCheckboxChange("repeatMonthly")} checked={repeatMonthly} /> Repeat monthly <br />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row >
+                    <Col sm={3} md={4} style={styles.formInput}>
+                        <Button type="submit" className="btn btn-success"> <FaPlus /> Add new event</Button>
+                    </Col>
+                </Row>
+            </Form>
         )
     }
 
@@ -90,11 +109,25 @@ class DayDetails extends Component {
                 <div>
                     {this.formDisplay()}
                 </div>
-                <p>You have {tasks.length ? tasks.length + " meetings in total. Your agenda:" : "no meetings."} </p>
-                {tasks}
+                <p style={{fontSize: '18px', fontWeight: 200}}>You have {tasks.length ? tasks.length + " meetings in total in this day. Your agenda:" : "no meetings."} </p>
+                <div style={styles.tasksWrapper}>
+                    {tasks}
+                </div>
             </div>
         )
     }
+}
+
+const styles = {
+    formInput: {
+        marginBottom: '20px'
+    },
+    tasksWrapper: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        width: '100%',
+    },
+    formStyle: {backgroundColor: 'rgb(240, 238, 238)', padding: 20, marginBottom: 20, borderRadius: '4px'}
 }
 
 export default DayDetails;
