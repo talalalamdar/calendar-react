@@ -77,8 +77,8 @@ class DayDetails extends Component {
                     </Col>
                 </Row>
                 <Row >
-                    <Col sm={3} md={4} style={styles.formInput}>
-                        <Button type="submit" className="btn btn-success"> <FaPlus /> Add new event</Button>
+                    <Col sm={3} md={4} style={styles.btnDiv}>
+                        <button style={styles.newTaskBtn} type="submit" className="submit-btn"> <FaPlus /></button>
                     </Col>
                 </Row>
             </Form>
@@ -127,7 +127,20 @@ const styles = {
         flexWrap: 'wrap',
         width: '100%',
     },
-    formStyle: {backgroundColor: 'rgb(240, 238, 238)', padding: 20, marginBottom: 20, borderRadius: '4px'}
+    formStyle: {backgroundColor: 'rgb(240, 238, 238)', padding: 20, marginBottom: 20, borderRadius: '4px'},
+    newTaskBtn: {
+        borderRadius: '50%',
+        padding: '15px' ,
+        fontSize: '30px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    btnDiv: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+    }
 }
 
 export default DayDetails;

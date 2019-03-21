@@ -13,6 +13,7 @@ body {
   background-repeat: no-repeat;
   height: 100vh;
   background-attachment: fixed;
+  font-family: sans-serif;
 }
 
 .page-header {
@@ -64,6 +65,7 @@ body {
   cursor: pointer;
   border-radius: 8px;
   font-weight: bolder;
+  transition: background-color .4s;
 }
 
 .week-header-cell {
@@ -173,6 +175,7 @@ input {
   box-sizing: content-box;
   list-style: none;
   border: 1px solid lightgray;
+  transition: box-shadow 0.6s;
 }
 
 .task-item {
@@ -240,6 +243,7 @@ input {
   padding: 10px;
   font-size: 18px;
   font-weight: 200 !important;
+  transition: height 1s; 
   height: 100%;
 }
 
@@ -259,6 +263,19 @@ input {
   -webkit-box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
   -moz-box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
   box-shadow: 0px 0px 10px 0px rgba(255, 226, 0, 0.75);
+}
+
+.submit-btn {
+  background-color: rgba(255, 226, 0, 0.75);
+  border: none;
+  transition: box-shadow .5s;
+}
+
+.submit-btn:hover {
+  animation-name: rotateBtn;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  box-shadow: 0 0px 0px 8px rgba(255, 226, 0, 0.75);
 }
 
 .total-container {
@@ -309,5 +326,14 @@ input {
   .main-container {
     padding: 20px;
     padding-left: 5%;
+  }
+}
+
+@keyframes rotateBtn {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
   }
 }

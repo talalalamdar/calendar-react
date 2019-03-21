@@ -145,7 +145,7 @@ class Calender extends Component {
 
             monthDays.push(
                 <td id={dateId}
-                    style={todayStr === dateId ? styles.todayCellStyle : dateId === this.props.selectedDay ? styles.selectedDay : checkWeekends === 0 || checkWeekends === 6 ? styles.weekendsCellsStyle : isBusyDay ? styles.busyDayStyle : {}} className="day-cell" key={dateId} onClick={(e) => this.changeDay(e, i)}>
+                    style={todayStr === dateId ? styles.todayCellStyle : dateId === this.props.selectedDay ? styles.selectedDay : checkWeekends === 0 || checkWeekends === 6 ? styles.weekendsCellsStyle : {}} className="day-cell" key={dateId} onClick={(e) => this.changeDay(e, i)}>
                     {i}
                     <div style={{lineHeight: '0px'}}>
                         {dayTotalTasks ?
@@ -219,17 +219,14 @@ class Calender extends Component {
 
 const styles = {
     todayCellStyle: {
-        backgroundColor: 'rgb(48, 62, 180)',
-        color: 'white',
+        backgroundColor: 'rgba(255, 226, 0, 0.75)',
+        color: 'black',
         cursor: 'pointer',
         margin: 'auto',
         textAlign: 'center'
     },
     selectedDay: {
         border: '2px solid black'
-    },
-    busyDayStyle: {
-        border: '1px dotted red',
     },
     weekendsCellsStyle: {
         color: 'red',
