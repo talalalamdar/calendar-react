@@ -124,7 +124,7 @@ class TaskItem extends Component {
             <div className="task-item">
                 <li> <strong> {title} </strong> at <strong> {time} </strong> <br />
                     In <strong> {location}</strong> <br />
-                    <button className="close" title='Close' onClick={this.activateDeleteMode}>&times;</button>
+                    <button className="close" title='Delete' onClick={this.activateDeleteMode}>&times;</button>
                     <div onClick={this.activateEditMode} className="edit-btn" title='Edit'>
                         <FaEdit  />
                     </div>

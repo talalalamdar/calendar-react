@@ -275,7 +275,12 @@ input {
   animation-name: rotateBtn;
   animation-duration: .5s;
   animation-fill-mode: forwards;
-  box-shadow: 0 0px 0px 8px rgba(255, 226, 0, 0.75);
+  box-shadow: 0 0px 0px 8px rgba(255, 255, 255, 0.9);
+}
+
+.submit-btn:focus {
+  outline: none;
+  box-shadow: 0 0px 0px 8px rgba(255, 255, 255, 0.9);
 }
 
 .total-container {
